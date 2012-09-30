@@ -1,0 +1,51 @@
+#encoding: utf-8
+
+.row
+  .span3.well.well-small.pull-left
+    %strong
+      = 'Data atual: ' + Time.now.strftime("%d/%m/%Y")
+      %p
+        Total de atletas no sistema: #{Atleta.count}
+
+%h1
+  Atletas
+
+- unless @atletas.empty?
+  %ul.lista_atletas
+    - @atletas.each do |atleta|
+      %li
+        %div.atleta_small_pic
+          = link_to image_tag(atleta.foto), atleta
+        %div.atleta_info_container
+          %p
+            Nome:
+            = link_to atleta.nome, atleta
+          %p
+            Email:
+            = atleta.email
+          %p
+            Último pagamento:
+            = formata_data(atleta.ultimo_pagamento)
+          %p
+            = 'Mensalidades atrasadas: ' if meses_pagos_ou_atrasados(atleta) < 0
+            = 'Mensalidades adiantadas: ' if meses_pagos_ou_atrasados(atleta) > 0
+            = 'Mensalidades quitadas: ' if meses_pagos_ou_atrasados(atleta) == 0
+            = 'Mês atual.' if meses_pagos_ou_atrasados(atleta).abs == 0
+            = meses_pagos_ou_atrasados(atleta).abs if meses_pagos_ou_atrasados(atleta).abs != 0
+          %p
+            Status:
+            %span{class: estilo_pagamento_pendente(atleta)}
+              = "Em dia" if status_atleta(atleta)
+              = "Inadimplente" unless status_atleta(atleta)
+          %p
+            - if admin_signed_in?
+              - if inadimplente?(atleta)
+                = link_to 'Em dia', em_dia_atleta_path(atleta), class: 'btn btn-mini btn-success'
+                |
+              = link_to 'Editar', edit_atleta_path(atleta), class: 'btn btn-mini'
+              |
+              = link_to 'Deletar', atleta_path(atleta), confirm: "Deseja deletar o atleta #{atleta.nome} ?", method: :delete, class: 'btn btn-mini btn-danger'
+
+- else
+  %i
+    Não há atletas cadastrados ainda.

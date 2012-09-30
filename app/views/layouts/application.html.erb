@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gerenciador Espectros</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container">
+  <% flash.each do |key, value| %>
+  <div class="alert <%= key == :notice ? 'success' : key %> fadeout">
+    <button type="button" class="close" data-dimiss="alert"> x
+    </button>
+    <span>
+      <%= value.capitalize %>
+    </span>
+  </div>
+  <% end %>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <%= link_to 'Gerenciador Espectros', root_path, class: 'brand' %>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+              <%= link_to 'Home', root_path %>
+            </li>
+            <li class="divider-vertical"></li>
+            <li>
+              <%= link_to "Atletas inadimplentes (#{Atleta.inadimplentes.count})", inadimplentes_atletas_path  %>
+            </li>
+            <li class="divider-vertical"></li>
+            <% if admin_signed_in? %>
+              <li>
+                <%= link_to "Novo atleta", new_atleta_path %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <ul class="nav pull-right">
+          <% unless admin_signed_in?%>
+            <li>
+              <%= link_to 'Login', new_admin_session_path %>
+            </li>
+            <li>
+              <%= link_to 'Cadastro', new_admin_registration_path %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to 'Logout', destroy_admin_session_path %>
+            </li>
+          <% end %>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <span class="span9">
+    <%= yield %></div>
+    </span>
+    <span class="span3">
+    </span>
+  </div>
+
+
+</body>
+</html>

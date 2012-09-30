@@ -1,0 +1,42 @@
+#encoding: utf-8
+%h1
+  = @atleta.nome
+- if admin_signed_in?
+  %p
+    = link_to 'Editar', edit_atleta_path(@atleta), class: 'btn btn-mini btn-primary'
+
+%p.atleta_pic
+  = image_tag(@atleta.foto)
+- if admin_signed_in? && inadimplente?(@atleta)
+  = link_to 'Em dia', em_dia_atleta_path(@atleta), class: 'btn btn-mini btn-success'
+
+%table.table.table-striped
+  %thead
+    %th
+      Status
+    %th
+      Nome
+    %th
+      Email
+    %th
+      = 'Mensalidades atrasadas' if meses_pagos_ou_atrasados(@atleta) < 0
+      = 'Mensalidades quitadas' if meses_pagos_ou_atrasados(@atleta) >= 0
+    %th
+      Mês do último pagamento
+
+  %tbody
+    %tr
+      %td
+        %span{class: estilo_pagamento_pendente(@atleta)}
+          = "Em dia" if status_atleta(@atleta)
+          = "Inadimplente" unless status_atleta(@atleta)
+      %td
+        = @atleta.nome
+      %td
+        = @atleta.email
+      %td
+        = 'Mês atual.' if meses_pagos_ou_atrasados(@atleta).abs == 0
+        = pluralize(meses_pagos_ou_atrasados(@atleta).abs, 'mês', 'meses') if meses_pagos_ou_atrasados(@atleta).abs != 0
+      %td
+        = formata_data(@atleta.ultimo_pagamento)
+        (#{num_to_month(@atleta.ultimo_pagamento.month)})

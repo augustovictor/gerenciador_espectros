@@ -1,0 +1,58 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require jquery.ui.datepicker
+ *= require_self
+ *= require_tree .
+*/
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.atleta_inadimplente_destaque {
+  color: red;
+}
+
+.lista_atletas li {
+  border-bottom: 1px dashed #E8E8E8;
+  clear: both;
+  float: left;
+  list-style-type: none;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.atleta_pic img {
+  width: 100px;
+}
+
+.atleta_small_pic {
+  float: left;
+}
+
+.atleta_small_pic img {
+  height: 95px !important;
+  width: 70px;
+}
+
+.atleta_info_container {
+  border-left: 1px solid #e8e8e8;
+  float: left;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.atleta_info_container p {
+  font-size: 12px;
+  line-height: 15px;
+  margin: 0 0 3px 0;
+}
