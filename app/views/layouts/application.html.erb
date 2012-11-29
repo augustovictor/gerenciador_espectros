@@ -52,9 +52,13 @@
               <%= link_to 'Login', new_admin_session_path %>
             </li>
             <li>
-              <%= link_to 'Cadastro', new_admin_registration_path %>
+              <%#= link_to 'Cadastro', new_admin_registration_path %>
             </li>
           <% else %>
+            <li>
+              Logado como <%= current_user.email %>
+            </li>
+            <li class="divider"></li>
             <li>
               <%= link_to 'Logout', destroy_admin_session_path %>
             </li>
